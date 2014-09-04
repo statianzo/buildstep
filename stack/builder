@@ -89,9 +89,9 @@ for file in $app_root/.profile.d/*; do source \$file; done
 hash -r
 cd $app_root
 if [[ -f Procfile ]]; then
-    ruby -e "require 'yaml';puts YAML.load_file('Procfile')['\$1']" | xargs /exec
+    xargs -xa <(ruby -e "require 'yaml';puts YAML.load_file('Procfile')['\$1']") /exec
 else
-    ruby -e "require 'yaml';puts (YAML.load_file('.release')['default_process_types'] || {})['\$1']" | xargs /exec
+    xargs -xa <(ruby -e "require 'yaml';puts (YAML.load_file('.release')['default_process_types'] || {})['\$1']") /exec
 fi
 EOF
 chmod +x /start
